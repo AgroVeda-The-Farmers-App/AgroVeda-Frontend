@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap');
+
+:root {
+  --green-deep:    #1B4332;
+  --green-mid:     #2D6A4F;
+  --green-light:   #52B788;
+  --green-pale:    #D8F3DC;
+  --green-mist:    #F0FAF2;
+  --yellow-warm:   #F4A61B;
+  --yellow-light:  #FDE68A;
+  --white:         #FFFFFF;
+  --off-white:     #FAFDF8;
+  --text-dark:     #0F2417;
+  --text-mid:      #3A5441;
+  --text-light:    #7A9A82;
+  --border:        #C4DFC9;
+  --shadow-sm:     0 2px 8px rgba(27,67,50,0.08);
+  --shadow-md:     0 8px 32px rgba(27,67,50,0.14);
+  --shadow-lg:     0 20px 60px rgba(27,67,50,0.18);
+  --radius:        14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--off-white);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: 'DM Sans', sans-serif; cursor: pointer; border: none; outline: none; }
+input, select { font-family: 'DM Sans', sans-serif; outline: none; }
+a { text-decoration: none; color: inherit; }
