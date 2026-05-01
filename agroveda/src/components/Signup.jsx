@@ -3,55 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import styles from "../styles/Signup.module.css";
 
-const T = {
-  en: {
-    brand: "Agroveda", tagline: "Rooted in tradition. Growing with science.",
-    chooseLanguage: "Choose your language",
-    languageSubtitle: "Select the language you're most comfortable with",
-    next: "Continue →", back: "← Back",
-    stepName: "What's your full name?", namePlaceholder: "e.g. Rajan Kumar", nameHint: "As per your official records",
-    stepPhone: "Your phone number", phonePlaceholder: "10-digit mobile number", phoneHint: "We'll send crop alerts to this number",
-    stepDob: "Your date of birth", dobHint: "Helps us give age-appropriate advice",
-    stepGender: "Select your gender", male: "Male", female: "Female", other: "Other",
-    stepMarital: "Marital status", single: "Single", married: "Married", widowed: "Widowed", divorced: "Divorced",
-    stepProfession: "Your profession", farmer: "Farmer", agronomist: "Agronomist", researcher: "Researcher",
-    student: "Student", trader: "Trader", otherProf: "Other",
-    stepAddress: "Your address", addressPlaceholder: "Village, District, State", addressHint: "Helps us give localised weather & crop data",
-    stepAccount: "Create your account", emailPlaceholder: "your@email.com",
-    passwordPlaceholder: "Minimum 6 characters", confirmPlaceholder: "Repeat your password",
-    createAccount: "Create Account 🌱", alreadyHave: "Already have an account?", signIn: "Sign in →", of: "/",
-    errName: "Please enter your full name.", errPhone: "Enter a valid 10-digit phone number.",
-    errDob: "Please select your date of birth.", errGender: "Please select your gender.",
-    errMarital: "Please select your marital status.", errProfession: "Please select your profession.",
-    errAddress: "Please enter your address.", errEmail: "Please enter a valid email.",
-    errPassword: "Password must be at least 6 characters.", errConfirm: "Passwords do not match.",
-    errServer: "Signup failed. Please try again.", creating: "Creating account...",
-  },
-  bn: {
-    brand: "এগ্রোবেদা", tagline: "ঐতিহ্যে শিকড়, বিজ্ঞানে বিকাশ।",
-    chooseLanguage: "আপনার ভাষা বেছে নিন",
-    languageSubtitle: "আপনি যে ভাষায় সবচেয়ে স্বাচ্ছন্দ্য বোধ করেন তা নির্বাচন করুন",
-    next: "পরবর্তী →", back: "← পিছনে",
-    stepName: "আপনার পুরো নাম কী?", namePlaceholder: "যেমন: রাজন কুমার", nameHint: "আপনার সরকারি নথি অনুযায়ী",
-    stepPhone: "আপনার ফোন নম্বর", phonePlaceholder: "১০ সংখ্যার মোবাইল নম্বর", phoneHint: "আমরা এই নম্বরে ফসলের সতর্কতা পাঠাব",
-    stepDob: "আপনার জন্ম তারিখ", dobHint: "বয়স-উপযুক্ত পরামর্শ দিতে সাহায্য করে",
-    stepGender: "আপনার লিঙ্গ নির্বাচন করুন", male: "পুরুষ", female: "মহিলা", other: "অন্যান্য",
-    stepMarital: "বৈবাহিক অবস্থা", single: "অবিবাহিত", married: "বিবাহিত", widowed: "বিধবা", divorced: "বিবাহবিচ্ছিন্ন",
-    stepProfession: "আপনার পেশা", farmer: "কৃষক", agronomist: "কৃষিবিদ", researcher: "গবেষক",
-    student: "ছাত্র/ছাত্রী", trader: "ব্যবসায়ী", otherProf: "অন্যান্য",
-    stepAddress: "আপনার ঠিকানা", addressPlaceholder: "গ্রাম, জেলা, রাজ্য", addressHint: "স্থানীয় আবহাওয়া ও ফসলের তথ্য দিতে সাহায্য করে",
-    stepAccount: "আপনার অ্যাকাউন্ট তৈরি করুন", emailPlaceholder: "আপনার@ইমেইল.com",
-    passwordPlaceholder: "কমপক্ষে ৬ অক্ষর", confirmPlaceholder: "পাসওয়ার্ড পুনরায় লিখুন",
-    createAccount: "অ্যাকাউন্ট তৈরি করুন 🌱", alreadyHave: "ইতিমধ্যে অ্যাকাউন্ট আছে?", signIn: "সাইন ইন →", of: "/",
-    errName: "আপনার পুরো নাম লিখুন।", errPhone: "একটি বৈধ ১০ সংখ্যার ফোন নম্বর দিন।",
-    errDob: "আপনার জন্ম তারিখ নির্বাচন করুন।", errGender: "আপনার লিঙ্গ নির্বাচন করুন।",
-    errMarital: "আপনার বৈবাহিক অবস্থা নির্বাচন করুন।", errProfession: "আপনার পেশা নির্বাচন করুন।",
-    errAddress: "আপনার ঠিকানা লিখুন।", errEmail: "একটি বৈধ ইমেইল লিখুন।",
-    errPassword: "পাসওয়ার্ড কমপক্ষে ৬ অক্ষর হতে হবে।", errConfirm: "পাসওয়ার্ড মিলছে না।",
-    errServer: "সাইনআপ ব্যর্থ হয়েছে। আবার চেষ্টা করুন।", creating: "অ্যাকাউন্ট তৈরি হচ্ছে...",
-  },
-};
-
 const TOTAL = 9;
 
 export default function Signup() {
@@ -104,7 +55,7 @@ export default function Signup() {
   };
 
   const titles = [t.chooseLanguage, t.stepName, t.stepPhone, t.stepDob,
-    t.stepGender, t.stepMarital, t.stepProfession, t.stepAddress, t.stepAccount];
+  t.stepGender, t.stepMarital, t.stepProfession, t.stepAddress, t.stepAccount];
   const progress = (step / (TOTAL - 1)) * 100;
 
   return (
@@ -117,8 +68,8 @@ export default function Signup() {
         <div className={styles.brand}>
           <svg width="30" height="30" viewBox="0 0 48 48" fill="none">
             <circle cx="24" cy="24" r="24" fill="rgba(255,255,255,0.15)" />
-            <path d="M24 8C24 8 12 18 12 28C12 34.627 17.373 40 24 40C30.627 40 36 34.627 36 28C36 18 24 8 24 8Z" fill="white" fillOpacity="0.9"/>
-            <path d="M24 16C24 16 18 22 18 28C18 31.314 20.686 34 24 34" stroke="#2D6A4F" strokeWidth="2.5" strokeLinecap="round"/>
+            <path d="M24 8C24 8 12 18 12 28C12 34.627 17.373 40 24 40C30.627 40 36 34.627 36 28C36 18 24 8 24 8Z" fill="white" fillOpacity="0.9" />
+            <path d="M24 16C24 16 18 22 18 28C18 31.314 20.686 34 24 34" stroke="#2D6A4F" strokeWidth="2.5" strokeLinecap="round" />
           </svg>
           <span className={styles.brandName}>{t.brand}</span>
         </div>
@@ -143,8 +94,8 @@ export default function Signup() {
           {error && (
             <div className={styles.error}>
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" stroke="#DC2626" strokeWidth="1.5"/>
-                <path d="M8 5v3M8 10.5v.5" stroke="#DC2626" strokeWidth="1.5" strokeLinecap="round"/>
+                <circle cx="8" cy="8" r="7" stroke="#DC2626" strokeWidth="1.5" />
+                <path d="M8 5v3M8 10.5v.5" stroke="#DC2626" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
               {error}
             </div>
@@ -154,9 +105,18 @@ export default function Signup() {
             <div className={styles.body}>
               <p className={styles.subtitle}>{t.languageSubtitle}</p>
               <div className={styles.langGrid}>
-                {[{code:"en",flag:"🇬🇧",label:"English",native:"English"},{code:"bn",flag:"🇮🇳",label:"Bengali",native:"বাংলা"}].map(({code,flag,label,native}) => (
-                  <button key={code} className={`${styles.langBtn} ${lang===code?styles.langActive:""}`}
-                    onClick={() => { setLang(code); patch("language", code); }}>
+                {[{ code: "en", flag: "🇬🇧", label: "English", native: "English" }, { code: "bn", flag: "🇮🇳", label: "Bengali", native: "বাংলা" }].map(({ code, flag, label, native }) => (
+                  <button key={code} className={`${styles.langBtn} ${lang === code ? styles.langActive : ""}`}
+                    onClick={() => {
+                      setLang(code);
+                      patch("language", code);
+                      // Trigger Google Translate
+                      const select = document.querySelector(".goog-te-combo");
+                      if (select) {
+                        select.value = code; // "en" or "bn"
+                        select.dispatchEvent(new Event("change"));
+                      }
+                    }}>
                     <span className={styles.langFlag}>{flag}</span>
                     <span className={styles.langLabel}>{label}</span>
                     <span className={styles.langNative}>{native}</span>
@@ -171,7 +131,7 @@ export default function Signup() {
               <input className={`${styles.input} ${styles.inputLg}`} type="text"
                 placeholder={t.namePlaceholder} value={form.full_name}
                 onChange={e => patch("full_name", e.target.value)}
-                onKeyDown={e => e.key==="Enter" && next()} autoFocus />
+                onKeyDown={e => e.key === "Enter" && next()} autoFocus />
               <p className={styles.hint}>{t.nameHint}</p>
             </div>
           )}
@@ -182,8 +142,8 @@ export default function Signup() {
                 <span className={styles.phoneCode}>+91</span>
                 <input className={`${styles.input} ${styles.inputPhone}`} type="tel"
                   placeholder={t.phonePlaceholder} value={form.phone_no}
-                  onChange={e => patch("phone_no", e.target.value.replace(/\D/g,"").slice(0,10))}
-                  onKeyDown={e => e.key==="Enter" && next()} autoFocus />
+                  onChange={e => patch("phone_no", e.target.value.replace(/\D/g, "").slice(0, 10))}
+                  onKeyDown={e => e.key === "Enter" && next()} autoFocus />
               </div>
               <p className={styles.hint}>{t.phoneHint}</p>
             </div>
@@ -200,8 +160,8 @@ export default function Signup() {
           {step === 4 && (
             <div className={styles.body}>
               <div className={styles.choiceGrid}>
-                {[{val:"Male",label:t.male,icon:"👨‍🌾"},{val:"Female",label:t.female,icon:"👩‍🌾"},{val:"Other",label:t.other,icon:"🌿"}].map(({val,label,icon}) => (
-                  <button key={val} className={`${styles.choiceBtn} ${form.gender===val?styles.choiceActive:""}`} onClick={() => patch("gender",val)}>
+                {[{ val: "Male", label: t.male, icon: "👨‍🌾" }, { val: "Female", label: t.female, icon: "👩‍🌾" }, { val: "Other", label: t.other, icon: "🌿" }].map(({ val, label, icon }) => (
+                  <button key={val} className={`${styles.choiceBtn} ${form.gender === val ? styles.choiceActive : ""}`} onClick={() => patch("gender", val)}>
                     <span className={styles.choiceIcon}>{icon}</span><span>{label}</span>
                   </button>
                 ))}
@@ -212,8 +172,8 @@ export default function Signup() {
           {step === 5 && (
             <div className={styles.body}>
               <div className={`${styles.choiceGrid} ${styles.choiceGrid2}`}>
-                {[{val:"Single",label:t.single,icon:"🌱"},{val:"Married",label:t.married,icon:"🌾"},{val:"Widowed",label:t.widowed,icon:"🍂"},{val:"Divorced",label:t.divorced,icon:"🌿"}].map(({val,label,icon}) => (
-                  <button key={val} className={`${styles.choiceBtn} ${form.marital_status===val?styles.choiceActive:""}`} onClick={() => patch("marital_status",val)}>
+                {[{ val: "Single", label: t.single, icon: "🌱" }, { val: "Married", label: t.married, icon: "🌾" }, { val: "Widowed", label: t.widowed, icon: "🍂" }, { val: "Divorced", label: t.divorced, icon: "🌿" }].map(({ val, label, icon }) => (
+                  <button key={val} className={`${styles.choiceBtn} ${form.marital_status === val ? styles.choiceActive : ""}`} onClick={() => patch("marital_status", val)}>
                     <span className={styles.choiceIcon}>{icon}</span><span>{label}</span>
                   </button>
                 ))}
@@ -224,8 +184,8 @@ export default function Signup() {
           {step === 6 && (
             <div className={styles.body}>
               <div className={`${styles.choiceGrid} ${styles.choiceGrid2}`}>
-                {[{val:"Farmer",label:t.farmer,icon:"🌾"},{val:"Agronomist",label:t.agronomist,icon:"🔬"},{val:"Researcher",label:t.researcher,icon:"📊"},{val:"Student",label:t.student,icon:"📚"},{val:"Trader",label:t.trader,icon:"🏪"},{val:"Other",label:t.otherProf,icon:"✨"}].map(({val,label,icon}) => (
-                  <button key={val} className={`${styles.choiceBtn} ${form.profession===val?styles.choiceActive:""}`} onClick={() => patch("profession",val)}>
+                {[{ val: "Farmer", label: t.farmer, icon: "🌾" }, { val: "Agronomist", label: t.agronomist, icon: "🔬" }, { val: "Researcher", label: t.researcher, icon: "📊" }, { val: "Student", label: t.student, icon: "📚" }, { val: "Trader", label: t.trader, icon: "🏪" }, { val: "Other", label: t.otherProf, icon: "✨" }].map(({ val, label, icon }) => (
+                  <button key={val} className={`${styles.choiceBtn} ${form.profession === val ? styles.choiceActive : ""}`} onClick={() => patch("profession", val)}>
                     <span className={styles.choiceIcon}>{icon}</span><span>{label}</span>
                   </button>
                 ))}
@@ -238,7 +198,7 @@ export default function Signup() {
               <input className={`${styles.input} ${styles.inputLg}`} type="text"
                 placeholder={t.addressPlaceholder} value={form.address}
                 onChange={e => patch("address", e.target.value)}
-                onKeyDown={e => e.key==="Enter" && next()} autoFocus />
+                onKeyDown={e => e.key === "Enter" && next()} autoFocus />
               <p className={styles.hint}>{t.addressHint}</p>
             </div>
           )}
@@ -248,11 +208,11 @@ export default function Signup() {
               <input className={styles.input} type="email" placeholder={t.emailPlaceholder}
                 value={form.email} onChange={e => patch("email", e.target.value)} autoFocus />
               <div className={styles.passWrap}>
-                <input className={styles.input} type={showPass?"text":"password"}
+                <input className={styles.input} type={showPass ? "text" : "password"}
                   placeholder={t.passwordPlaceholder} value={form.password}
                   onChange={e => patch("password", e.target.value)} />
-                <button className={styles.eyeBtn} type="button" onClick={() => setShowPass(p=>!p)}>
-                  {showPass?"🙈":"👁️"}
+                <button className={styles.eyeBtn} type="button" onClick={() => setShowPass(p => !p)}>
+                  {showPass ? "🙈" : "👁️"}
                 </button>
               </div>
               <input className={styles.input} type="password" placeholder={t.confirmPlaceholder}
@@ -265,8 +225,8 @@ export default function Signup() {
             {step < TOTAL - 1
               ? <button className={styles.btnNext} onClick={next}>{t.next}</button>
               : <button className={`${styles.btnNext} ${styles.btnSubmit}`} onClick={submit} disabled={loading}>
-                  {loading ? <span className={styles.spinner}/> : t.createAccount}
-                </button>
+                {loading ? <span className={styles.spinner} /> : t.createAccount}
+              </button>
             }
           </div>
         </div>
