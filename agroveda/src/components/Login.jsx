@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import styles from "../../styles/Auth.module.css";
+import styles from "../styles/Auth.module.css";
 
 export default function Login() {
   const navigate = useNavigate();

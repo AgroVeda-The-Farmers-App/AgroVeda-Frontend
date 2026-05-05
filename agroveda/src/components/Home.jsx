@@ -7,31 +7,37 @@ const FEATURES = [
     icon: "🌾",
     title: "Smart Crop Advisory",
     text: "AI-powered recommendations tailored to your soil type, season, and local climate — so every decision is backed by data.",
+    link: "/crop-calendar",   // ← clickable
   },
   {
     icon: "🌦️",
     title: "Hyperlocal Weather Alerts",
     text: "Get real-time weather forecasts and extreme weather warnings directly for your farm's pincode, not a generic region.",
+    link: null,
   },
   {
     icon: "📊",
     title: "Live Market Prices",
     text: "Track mandi prices across 500+ markets in real time. Know when to sell and where to sell for maximum profit.",
+    link: null,
   },
   {
     icon: "🧪",
     title: "Soil Health Reports",
     text: "Upload your soil test results and get a detailed analysis with fertilizer and crop rotation recommendations.",
+    link: null,
   },
   {
     icon: "💧",
     title: "Irrigation Planner",
     text: "Optimise water usage with our smart irrigation schedules that adapt to rainfall forecasts and crop growth stages.",
+    link: null,
   },
   {
     icon: "🤖",
     title: "AI Farm Assistant",
     text: "Chat with our multilingual AI assistant 24/7 — ask in Hindi, Bengali, Tamil or English and get expert answers instantly.",
+    link: null,
   },
 ];
 
@@ -97,18 +103,16 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll hint */}
         <div className={styles.scrollHint}>
           <div className={styles.scrollDot} />
           <span>Scroll</span>
         </div>
 
-        {/* Stats bar */}
         <div className={styles.heroStats}>
           {[
             { num: "12,000+", label: "Active Farmers" },
             { num: "18 States", label: "Pan India Coverage" },
-            { num: "98%", label: "Satisfaction Rate" },
+            { num: "98%",      label: "Satisfaction Rate" },
             { num: "6 Languages", label: "Multilingual Support" },
           ].map((s) => (
             <div key={s.label} className={styles.heroStat}>
@@ -131,13 +135,26 @@ export default function Home() {
             From seed selection to market timing — Agroveda covers every stage of the farming cycle with intelligent, data-driven tools.
           </p>
           <div className={styles.featuresGrid}>
-            {FEATURES.map((f) => (
-              <div key={f.title} className={styles.featureCard}>
-                <div className={styles.featureIcon}>{f.icon}</div>
-                <h3 className={styles.featureTitle}>{f.title}</h3>
-                <p className={styles.featureText}>{f.text}</p>
-              </div>
-            ))}
+            {FEATURES.map((f) =>
+              f.link ? (
+                // ── Clickable card ──
+                <Link to={f.link} key={f.title} className={`${styles.featureCard} ${styles.featureCardLink}`}>
+                  <div className={styles.featureIcon}>{f.icon}</div>
+                  <h3 className={styles.featureTitle}>{f.title}</h3>
+                  <p className={styles.featureText}>{f.text}</p>
+                  <span className={styles.featureArrow}>
+                    Explore →
+                  </span>
+                </Link>
+              ) : (
+                // ── Static card ──
+                <div key={f.title} className={styles.featureCard}>
+                  <div className={styles.featureIcon}>{f.icon}</div>
+                  <h3 className={styles.featureTitle}>{f.title}</h3>
+                  <p className={styles.featureText}>{f.text}</p>
+                </div>
+              )
+            )}
           </div>
         </div>
       </section>
@@ -167,14 +184,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── ABOUT / CTA BANNER ── */}
+      {/* ── ABOUT ── */}
       <section id="about" className={styles.section} style={{ textAlign: "center", maxWidth: "700px" }}>
         <span className={styles.sectionLabel}>Our Mission</span>
         <h2 className={styles.sectionTitle}>
           Built for the <span>Indian Farmer</span>
         </h2>
         <p style={{ fontSize: "1rem", color: "var(--text-light)", lineHeight: 1.75, marginBottom: "2.5rem" }}>
-          Agroveda was founded with one goal — bridge the gap between traditional farming wisdom and modern agricultural science. We believe every farmer, regardless of land size or education, deserves access to the same tools that large agribusinesses use.
+          Agroveda was founded with one goal — bridge the gap between traditional farming wisdom and modern agricultural science.
+          We believe every farmer, regardless of land size or education, deserves access to the same tools that large agribusinesses use.
         </p>
         <Link to="/signup" className={styles.btnPrimary} style={{ display: "inline-flex" }}>
           Join Agroveda Free
@@ -188,7 +206,6 @@ export default function Home() {
       <footer id="contact" className={styles.footer}>
         <div className={styles.footerInner}>
           <div className={styles.footerTop}>
-            {/* Brand col */}
             <div className={styles.footerBrand}>
               <div className={styles.footerLogoRow}>
                 <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
@@ -206,14 +223,12 @@ export default function Home() {
                 ))}
               </div>
             </div>
-
-            {/* Links */}
             <div className={styles.footerCol}>
               <h4>Platform</h4>
               <ul className={styles.footerLinks}>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#">Pricing</a></li>
+                <li><Link to="/crop-calendar">Crop Calendar</Link></li>
                 <li><a href="#">Mobile App</a></li>
               </ul>
             </div>
@@ -236,9 +251,9 @@ export default function Home() {
               </ul>
             </div>
           </div>
-
           <div className={styles.footerBottom}>
             <span>© 2025 Agroveda. All rights reserved.</span>
+            <span className={styles.footerBadge}>🇮🇳 Made with ❤️ in India</span>
           </div>
         </div>
       </footer>
