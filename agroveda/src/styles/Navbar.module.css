@@ -73,7 +73,6 @@
   text-decoration: none;
   padding: 0.5rem 0.9rem;
   border-radius: 8px;
-  background: transparent;
   transition: color 0.2s, background 0.2s;
   white-space: nowrap;
 }
@@ -179,4 +178,59 @@
 }
 @media (min-width: 821px) {
   .mobileMenu { display: none !important; }
+}
+
+/* ── USER MENU (logged in state) ── */
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.userAvatar {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #52B788, #2D6A4F);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.3);
+  flex-shrink: 0;
+}
+
+.userName {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  white-space: nowrap;
+}
+
+.btnLogout {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+}
+.btnLogout:hover {
+  color: #fff;
+  border-color: rgba(255,100,100,0.5);
+  background: rgba(255,80,80,0.12);
+}
+
+.mobileUserName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  padding: 0.5rem 0.75rem;
 }

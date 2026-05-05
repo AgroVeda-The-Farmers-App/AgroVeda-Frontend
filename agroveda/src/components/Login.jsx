@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import styles from "../styles/Auth.module.css";
+import axios from "axios";
+import styles from "../../styles/Auth.module.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ phone_no: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
@@ -16,17 +17,20 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.email || !form.password) {
+    if (!form.phone_no || !form.password) {
       setError("Please fill in all fields.");
+      return;
+    }
+    if (!/^\d{10}$/.test(form.phone_no)) {
+      setError("Enter a valid 10-digit phone number.");
       return;
     }
     setLoading(true);
     try {
-
       const res = await axios.post("http://localhost:5000/login", form);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setError(err?.response?.data?.error || "Login failed. Please try again.");
     } finally {
@@ -71,16 +75,25 @@ export default function Login() {
 
         <div className={styles.panelFooter}>
           <div className={styles.statsRow}>
-            <div className={styles.stat}><span className={styles.statNum}>12K+</span><span className={styles.statLabel}>Farmers</span></div>
+            <div className={styles.stat}>
+              <span className={styles.statNum}>12K+</span>
+              <span className={styles.statLabel}>Farmers</span>
+            </div>
             <div className={styles.statDivider} />
-            <div className={styles.stat}><span className={styles.statNum}>98%</span><span className={styles.statLabel}>Satisfaction</span></div>
+            <div className={styles.stat}>
+              <span className={styles.statNum}>98%</span>
+              <span className={styles.statLabel}>Satisfaction</span>
+            </div>
             <div className={styles.statDivider} />
-            <div className={styles.stat}><span className={styles.statNum}>24/7</span><span className={styles.statLabel}>Support</span></div>
+            <div className={styles.stat}>
+              <span className={styles.statNum}>24/7</span>
+              <span className={styles.statLabel}>Support</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Right Panel — Form */}
+      {/* Right Panel */}
       <div className={styles.rightPanel}>
         <div className={styles.formCard}>
           <div className={styles.formHeader}>
@@ -90,36 +103,53 @@ export default function Login() {
 
           {error && (
             <div className={styles.errorBanner}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#DC2626" strokeWidth="1.5" /><path d="M8 5v3M8 10.5v.5" stroke="#DC2626" strokeWidth="1.5" strokeLinecap="round" /></svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="7" stroke="#DC2626" strokeWidth="1.5" />
+                <path d="M8 5v3M8 10.5v.5" stroke="#DC2626" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className={styles.form} noValidate>
+
+            {/* Phone Number Field */}
             <div className={styles.field}>
-              <label className={styles.label} htmlFor="email">Email Address</label>
+              <label className={styles.label} htmlFor="phone_no">Phone Number</label>
               <div className={styles.inputWrap}>
+                {/* Phone icon */}
                 <svg className={styles.inputIcon} width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <rect x="1.5" y="3.5" width="15" height="11" rx="2" stroke="currentColor" strokeWidth="1.5" />
-                  <path d="M1.5 6.5L9 11L16.5 6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  <path d="M3 2h3.5l1.5 4-2 1.5c1 2 2.5 3.5 4.5 4.5L12 10l4 1.5V15c0 .5-.5 1-1 1C6 16 2 10 2 4c0-.5.5-1 1-1z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
+                {/* +91 prefix */}
+                <span style={{
+                  position: "absolute", left: "2.6rem",
+                  fontSize: "0.9rem", fontWeight: "600",
+                  color: "#2D6A4F", pointerEvents: "none"
+                }}>+91</span>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id="phone_no"
+                  name="phone_no"
+                  type="tel"
                   className={styles.input}
-                  placeholder="you@example.com"
-                  value={form.email}
-                  onChange={handleChange}
-                  autoComplete="email"
+                  style={{ paddingLeft: "4.5rem" }}
+                  placeholder="10-digit mobile number"
+                  value={form.phone_no}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, "").slice(0, 10);
+                    setForm(p => ({ ...p, phone_no: val }));
+                    setError("");
+                  }}
+                  autoComplete="tel"
                 />
               </div>
             </div>
 
+            {/* Password Field */}
             <div className={styles.field}>
               <div className={styles.labelRow}>
                 <label className={styles.label} htmlFor="password">Password</label>
-                <a href="#" className={styles.forgotLink}>Forgot password?</a>
+                <a href="/forgot-password" className={styles.forgotLink}>Forgot password?</a>
               </div>
               <div className={styles.inputWrap}>
                 <svg className={styles.inputIcon} width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -143,9 +173,16 @@ export default function Login() {
                   aria-label={showPass ? "Hide password" : "Show password"}
                 >
                   {showPass ? (
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M1 9C2.5 5.5 5.5 3 9 3s6.5 2.5 8 6c-1.5 3.5-4.5 6-8 6s-6.5-2.5-8-6z" stroke="currentColor" strokeWidth="1.5" /><circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5" /><path d="M3 3l12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <path d="M1 9C2.5 5.5 5.5 3 9 3s6.5 2.5 8 6c-1.5 3.5-4.5 6-8 6s-6.5-2.5-8-6z" stroke="currentColor" strokeWidth="1.5"/>
+                      <circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5"/>
+                      <path d="M3 3l12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
                   ) : (
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M1 9C2.5 5.5 5.5 3 9 3s6.5 2.5 8 6c-1.5 3.5-4.5 6-8 6s-6.5-2.5-8-6z" stroke="currentColor" strokeWidth="1.5" /><circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5" /></svg>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <path d="M1 9C2.5 5.5 5.5 3 9 3s6.5 2.5 8 6c-1.5 3.5-4.5 6-8 6s-6.5-2.5-8-6z" stroke="currentColor" strokeWidth="1.5"/>
+                      <circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5"/>
+                    </svg>
                   )}
                 </button>
               </div>
@@ -155,7 +192,12 @@ export default function Login() {
               {loading ? (
                 <span className={styles.spinner} />
               ) : (
-                <>Sign In <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg></>
+                <>
+                  Sign In
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </>
               )}
             </button>
           </form>

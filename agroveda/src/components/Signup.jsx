@@ -3,36 +3,40 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import styles from "../styles/Signup.module.css";
 
-const TOTAL = 9;
+const TOTAL = 7;
+
+const triggerGoogleTranslate = (langCode) => {
+  const select = document.querySelector(".goog-te-combo");
+  if (select) {
+    select.value = langCode;
+    select.dispatchEvent(new Event("change"));
+  }
+};
 
 export default function Signup() {
   const navigate = useNavigate();
-  const [lang, setLang] = useState("en");
-  const t = T[lang];
   const [step, setStep] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
+  const [selectedLang, setSelectedLang] = useState("en");
+
   const [form, setForm] = useState({
     language: "en", full_name: "", phone_no: "", dob: "",
-    gender: "", marital_status: "", profession: "",
-    address: "", email: "", password: "", confirm_password: "",
+    gender: "", address: "", password: "", confirm_password: "",
   });
 
   const patch = (field, val) => { setForm(p => ({ ...p, [field]: val })); setError(""); };
 
   const validate = () => {
-    if (step === 1 && !form.full_name.trim()) return t.errName;
-    if (step === 2 && !/^\d{10}$/.test(form.phone_no)) return t.errPhone;
-    if (step === 3 && !form.dob) return t.errDob;
-    if (step === 4 && !form.gender) return t.errGender;
-    if (step === 5 && !form.marital_status) return t.errMarital;
-    if (step === 6 && !form.profession) return t.errProfession;
-    if (step === 7 && !form.address.trim()) return t.errAddress;
-    if (step === 8) {
-      if (!/^\S+@\S+\.\S+$/.test(form.email)) return t.errEmail;
-      if (form.password.length < 6) return t.errPassword;
-      if (form.password !== form.confirm_password) return t.errConfirm;
+    if (step === 1 && !form.full_name.trim()) return "Please enter your full name.";
+    if (step === 2 && !/^\d{10}$/.test(form.phone_no)) return "Enter a valid 10-digit phone number.";
+    if (step === 3 && !form.dob) return "Please select your date of birth.";
+    if (step === 4 && !form.gender) return "Please select your gender.";
+    if (step === 5 && !form.address.trim()) return "Please enter your address.";
+    if (step === 6) {
+      if (form.password.length < 6) return "Password must be at least 6 characters.";
+      if (form.password !== form.confirm_password) return "Passwords do not match.";
     }
     return null;
   };
@@ -48,14 +52,21 @@ export default function Signup() {
       const res = await axios.post("http://localhost:5000/signup", payload);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
-      setError(err?.response?.data?.error || t.errServer);
+      setError(err?.response?.data?.error || "Signup failed. Please try again.");
     } finally { setLoading(false); }
   };
 
-  const titles = [t.chooseLanguage, t.stepName, t.stepPhone, t.stepDob,
-  t.stepGender, t.stepMarital, t.stepProfession, t.stepAddress, t.stepAccount];
+  const titles = [
+    "Choose your language",
+    "What's your full name?",
+    "Your phone number",
+    "Your date of birth",
+    "Select your gender",
+    "Create your account",
+  ];
+
   const progress = (step / (TOTAL - 1)) * 100;
 
   return (
@@ -64,6 +75,7 @@ export default function Signup() {
       <div className={`${styles.blob} ${styles.blob2}`} />
       <div className={`${styles.blob} ${styles.blob3}`} />
 
+      {/* Top bar */}
       <div className={styles.topbar}>
         <div className={styles.brand}>
           <svg width="30" height="30" viewBox="0 0 48 48" fill="none">
@@ -71,21 +83,25 @@ export default function Signup() {
             <path d="M24 8C24 8 12 18 12 28C12 34.627 17.373 40 24 40C30.627 40 36 34.627 36 28C36 18 24 8 24 8Z" fill="white" fillOpacity="0.9" />
             <path d="M24 16C24 16 18 22 18 28C18 31.314 20.686 34 24 34" stroke="#2D6A4F" strokeWidth="2.5" strokeLinecap="round" />
           </svg>
-          <span className={styles.brandName}>{t.brand}</span>
+          <span className={styles.brandName}>Agroveda</span>
         </div>
         <p className={styles.signinHint}>
-          {t.alreadyHave} <Link to="/login" className={styles.signinLink}>{t.signIn}</Link>
+          Already have an account?{" "}
+          <Link to="/login" className={styles.signinLink}>Sign in →</Link>
         </p>
       </div>
 
+      {/* Card */}
       <div className={styles.center}>
         <div className={styles.card} key={step}>
+
+          {/* Progress bar */}
           {step > 0 && (
             <div className={styles.progressWrap}>
               <div className={styles.progressBar}>
                 <div className={styles.progressFill} style={{ width: `${progress}%` }} />
               </div>
-              <span className={styles.stepCount}>{step} {t.of} {TOTAL - 1}</span>
+              <span className={styles.stepCount}>{step} / {TOTAL - 1}</span>
             </div>
           )}
 
@@ -101,22 +117,26 @@ export default function Signup() {
             </div>
           )}
 
+          {/* ── STEP 0: Language ── */}
           {step === 0 && (
             <div className={styles.body}>
-              <p className={styles.subtitle}>{t.languageSubtitle}</p>
+              <p className={styles.subtitle}>
+                Select the language you are most comfortable with
+              </p>
               <div className={styles.langGrid}>
-                {[{ code: "en", flag: "🇬🇧", label: "English", native: "English" }, { code: "bn", flag: "🇮🇳", label: "Bengali", native: "বাংলা" }].map(({ code, flag, label, native }) => (
-                  <button key={code} className={`${styles.langBtn} ${lang === code ? styles.langActive : ""}`}
+                {[
+                  { code: "en", flag: "🇬🇧", label: "English", native: "English" },
+                  { code: "bn", flag: "🇮🇳", label: "Bengali", native: "বাংলা" },
+                ].map(({ code, flag, label, native }) => (
+                  <button
+                    key={code}
+                    className={`${styles.langBtn} ${selectedLang === code ? styles.langActive : ""}`}
                     onClick={() => {
-                      setLang(code);
+                      setSelectedLang(code);
                       patch("language", code);
-                      // Trigger Google Translate
-                      const select = document.querySelector(".goog-te-combo");
-                      if (select) {
-                        select.value = code; // "en" or "bn"
-                        select.dispatchEvent(new Event("change"));
-                      }
-                    }}>
+                      triggerGoogleTranslate(code);
+                    }}
+                  >
                     <span className={styles.langFlag}>{flag}</span>
                     <span className={styles.langLabel}>{label}</span>
                     <span className={styles.langNative}>{native}</span>
@@ -126,113 +146,132 @@ export default function Signup() {
             </div>
           )}
 
+          {/* ── STEP 1: Name ── */}
           {step === 1 && (
             <div className={styles.body}>
-              <input className={`${styles.input} ${styles.inputLg}`} type="text"
-                placeholder={t.namePlaceholder} value={form.full_name}
+              <input
+                className={`${styles.input} ${styles.inputLg}`}
+                type="text"
+                placeholder="e.g. Rajan Kumar"
+                value={form.full_name}
                 onChange={e => patch("full_name", e.target.value)}
-                onKeyDown={e => e.key === "Enter" && next()} autoFocus />
-              <p className={styles.hint}>{t.nameHint}</p>
+                onKeyDown={e => e.key === "Enter" && next()}
+                autoFocus
+              />
+              <p className={styles.hint}>As per your official records</p>
             </div>
           )}
 
+          {/* ── STEP 2: Phone ── */}
           {step === 2 && (
             <div className={styles.body}>
               <div className={styles.phoneWrap}>
                 <span className={styles.phoneCode}>+91</span>
-                <input className={`${styles.input} ${styles.inputPhone}`} type="tel"
-                  placeholder={t.phonePlaceholder} value={form.phone_no}
+                <input
+                  className={`${styles.input} ${styles.inputPhone}`}
+                  type="tel"
+                  placeholder="10-digit mobile number"
+                  value={form.phone_no}
                   onChange={e => patch("phone_no", e.target.value.replace(/\D/g, "").slice(0, 10))}
-                  onKeyDown={e => e.key === "Enter" && next()} autoFocus />
+                  onKeyDown={e => e.key === "Enter" && next()}
+                  autoFocus
+                />
               </div>
-              <p className={styles.hint}>{t.phoneHint}</p>
+              <p className={styles.hint}>We'll send crop alerts to this number</p>
             </div>
           )}
 
+          {/* ── STEP 3: DOB ── */}
           {step === 3 && (
             <div className={styles.body}>
-              <input className={`${styles.input} ${styles.inputLg}`} type="date"
-                value={form.dob} onChange={e => patch("dob", e.target.value)} autoFocus />
-              <p className={styles.hint}>{t.dobHint}</p>
+              <input
+                className={`${styles.input} ${styles.inputLg}`}
+                type="date"
+                value={form.dob}
+                onChange={e => patch("dob", e.target.value)}
+                autoFocus
+              />
+              <p className={styles.hint}>Helps us give age-appropriate advice</p>
             </div>
           )}
 
+          {/* ── STEP 4: Gender ── */}
           {step === 4 && (
             <div className={styles.body}>
               <div className={styles.choiceGrid}>
-                {[{ val: "Male", label: t.male, icon: "👨‍🌾" }, { val: "Female", label: t.female, icon: "👩‍🌾" }, { val: "Other", label: t.other, icon: "🌿" }].map(({ val, label, icon }) => (
-                  <button key={val} className={`${styles.choiceBtn} ${form.gender === val ? styles.choiceActive : ""}`} onClick={() => patch("gender", val)}>
-                    <span className={styles.choiceIcon}>{icon}</span><span>{label}</span>
+                {[
+                  { val: "Male", label: "Male", icon: "👨‍🌾" },
+                  { val: "Female", label: "Female", icon: "👩‍🌾" },
+                  { val: "Other", label: "Other", icon: "🌿" },
+                ].map(({ val, label, icon }) => (
+                  <button
+                    key={val}
+                    className={`${styles.choiceBtn} ${form.gender === val ? styles.choiceActive : ""}`}
+                    onClick={() => patch("gender", val)}
+                  >
+                    <span className={styles.choiceIcon}>{icon}</span>
+                    <span>{label}</span>
                   </button>
                 ))}
               </div>
             </div>
           )}
 
+          {/* ── STEP 5: Address ── */}
           {step === 5 && (
             <div className={styles.body}>
-              <div className={`${styles.choiceGrid} ${styles.choiceGrid2}`}>
-                {[{ val: "Single", label: t.single, icon: "🌱" }, { val: "Married", label: t.married, icon: "🌾" }, { val: "Widowed", label: t.widowed, icon: "🍂" }, { val: "Divorced", label: t.divorced, icon: "🌿" }].map(({ val, label, icon }) => (
-                  <button key={val} className={`${styles.choiceBtn} ${form.marital_status === val ? styles.choiceActive : ""}`} onClick={() => patch("marital_status", val)}>
-                    <span className={styles.choiceIcon}>{icon}</span><span>{label}</span>
-                  </button>
-                ))}
-              </div>
+              <input
+                className={`${styles.input} ${styles.inputLg}`}
+                type="text"
+                placeholder="Village, District, State"
+                value={form.address}
+                onChange={e => patch("address", e.target.value)}
+                onKeyDown={e => e.key === "Enter" && next()}
+                autoFocus
+              />
+              <p className={styles.hint}>Helps us give localised weather and crop data</p>
             </div>
           )}
 
+          {/* ── STEP 6: Account ── */}
           {step === 6 && (
             <div className={styles.body}>
-              <div className={`${styles.choiceGrid} ${styles.choiceGrid2}`}>
-                {[{ val: "Farmer", label: t.farmer, icon: "🌾" }, { val: "Agronomist", label: t.agronomist, icon: "🔬" }, { val: "Researcher", label: t.researcher, icon: "📊" }, { val: "Student", label: t.student, icon: "📚" }, { val: "Trader", label: t.trader, icon: "🏪" }, { val: "Other", label: t.otherProf, icon: "✨" }].map(({ val, label, icon }) => (
-                  <button key={val} className={`${styles.choiceBtn} ${form.profession === val ? styles.choiceActive : ""}`} onClick={() => patch("profession", val)}>
-                    <span className={styles.choiceIcon}>{icon}</span><span>{label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {step === 7 && (
-            <div className={styles.body}>
-              <input className={`${styles.input} ${styles.inputLg}`} type="text"
-                placeholder={t.addressPlaceholder} value={form.address}
-                onChange={e => patch("address", e.target.value)}
-                onKeyDown={e => e.key === "Enter" && next()} autoFocus />
-              <p className={styles.hint}>{t.addressHint}</p>
-            </div>
-          )}
-
-          {step === 8 && (
-            <div className={styles.body}>
-              <input className={styles.input} type="email" placeholder={t.emailPlaceholder}
-                value={form.email} onChange={e => patch("email", e.target.value)} autoFocus />
               <div className={styles.passWrap}>
                 <input className={styles.input} type={showPass ? "text" : "password"}
-                  placeholder={t.passwordPlaceholder} value={form.password}
+                  placeholder="Minimum 6 characters" value={form.password}
                   onChange={e => patch("password", e.target.value)} />
                 <button className={styles.eyeBtn} type="button" onClick={() => setShowPass(p => !p)}>
                   {showPass ? "🙈" : "👁️"}
                 </button>
               </div>
-              <input className={styles.input} type="password" placeholder={t.confirmPlaceholder}
-                value={form.confirm_password} onChange={e => patch("confirm_password", e.target.value)} />
+              <input className={styles.input} type="password"
+                placeholder="Repeat your password" value={form.confirm_password}
+                onChange={e => patch("confirm_password", e.target.value)} />
             </div>
           )}
 
+          {/* Navigation */}
           <div className={styles.nav}>
-            {step > 0 && <button className={styles.btnBack} onClick={back}>{t.back}</button>}
-            {step < TOTAL - 1
-              ? <button className={styles.btnNext} onClick={next}>{t.next}</button>
-              : <button className={`${styles.btnNext} ${styles.btnSubmit}`} onClick={submit} disabled={loading}>
-                {loading ? <span className={styles.spinner} /> : t.createAccount}
+            {step > 0 && (
+              <button className={styles.btnBack} onClick={back}>← Back</button>
+            )}
+            {step < TOTAL - 1 ? (
+              <button className={styles.btnNext} onClick={next}>Continue →</button>
+            ) : (
+              <button
+                className={`${styles.btnNext} ${styles.btnSubmit}`}
+                onClick={submit}
+                disabled={loading}
+              >
+                {loading ? <span className={styles.spinner} /> : "Create Account 🌱"}
               </button>
-            }
+            )}
           </div>
+
         </div>
       </div>
 
-      <p className={styles.footer}>© 2025 Agroveda · {t.tagline}</p>
+      <p className={styles.footer}>© 2025 Agroveda · Rooted in tradition. Growing with science.</p>
     </div>
   );
 }
