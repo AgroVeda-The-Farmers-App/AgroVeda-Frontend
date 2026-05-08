@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+.page { min-height: 100vh; background: #FAFDF8; font-family: 'DM Sans', sans-serif; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 60%, #40916C 100%);
+  padding: 7rem 2rem 3.5rem; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(82,183,136,0.15) 0%, transparent 60%);
+}
+.heroContent { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+.eyebrow {
+  display: inline-block; background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2); color: #FDE68A;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.25rem;
+}
+.heroTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3rem); font-weight: 700;
+  color: #fff; margin: 0 0 1rem; line-height: 1.15;
+}
+.heroSub { font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.7; margin: 0; }
+
+/* ── TAB BAR ── */
+.tabBar {
+  background: #fff; border-bottom: 1px solid #E2EDE5;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 12px rgba(27,67,50,0.06);
+}
+.tabList {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; gap: 0; overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabList::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 1rem 1.5rem; font-size: 0.9rem; font-weight: 600;
+  color: #7A9A82; background: none; border: none;
+  border-bottom: 3px solid transparent; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; white-space: nowrap;
+  transition: all 0.2s;
+}
+.tab:hover { color: #1B4332; background: #f7fbf8; }
+.tabActive { color: #1B4332 !important; border-bottom-color: #1B4332 !important; }
+
+/* ── CONTAINER ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+.tabDesc { font-size: 0.9rem; color: #7A9A82; margin-bottom: 1.75rem; }
+
+/* ── LOADING ── */
+.loadingWrap { text-align: center; padding: 4rem 0; color: #7A9A82; }
+.loadingDots { display: flex; justify-content: center; gap: 0.4rem; margin-bottom: 1rem; }
+.loadingDots span {
+  width: 10px; height: 10px; border-radius: 50%; background: #52B788;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+.loadingDots span:nth-child(2) { animation-delay: 0.2s; }
+.loadingDots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotPulse {
+  0%,100% { transform: scale(1); opacity: 0.5; }
+  50%      { transform: scale(1.4); opacity: 1; }
+}
+
+/* ── ERROR / EMPTY ── */
+.errorBox {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: #FEF2F2; border: 1px solid #FECACA;
+  color: #DC2626; font-size: 0.85rem;
+  padding: 0.75rem 1rem; border-radius: 10px; margin-bottom: 1.5rem;
+}
+.emptyState { text-align: center; padding: 4rem 0; color: #7A9A82; }
+.emptyIcon { font-size: 3rem; margin-bottom: 1rem; }
+
+/* ── NEWS GRID ── */
+.newsGrid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.newsCard {
+  background: #fff; border: 1px solid #E2EDE5; border-radius: 16px;
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: all 0.22s; box-shadow: 0 2px 12px rgba(27,67,50,0.06);
+}
+.newsCard:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(27,67,50,0.12); border-color: #C4DFC9; }
+
+.cardImg { width: 100%; height: 180px; overflow: hidden; background: #f0faf2; }
+.cardImg img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+.newsCard:hover .cardImg img { transform: scale(1.04); }
+
+.cardBody { padding: 1.25rem; display: flex; flex-direction: column; flex: 1; gap: 0.6rem; }
+.cardMeta { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.cardSource {
+  font-size: 0.72rem; font-weight: 700; color: #fff;
+  background: #2D6A4F; padding: 0.2rem 0.6rem; border-radius: 100px;
+}
+.cardDate { font-size: 0.72rem; color: #A8C4AE; }
+.cardTitle { font-size: 0.95rem; font-weight: 700; color: #0F2417; line-height: 1.4; margin: 0; }
+.cardDesc { font-size: 0.83rem; color: #7A9A82; line-height: 1.6; margin: 0; flex: 1; }
+.cardLink {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.82rem; font-weight: 700; color: #2D6A4F;
+  text-decoration: none; margin-top: auto; padding-top: 0.5rem;
+  transition: color 0.2s;
+}
+.cardLink:hover { color: #1B4332; }
+
+/* ── WEATHER ── */
+.weatherWrap { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.weatherSelector {
+  background: #fff; border: 1px solid #E2EDE5; border-radius: 16px;
+  padding: 1.75rem 2rem; display: flex; gap: 1.25rem; align-items: flex-end;
+  flex-wrap: wrap; box-shadow: 0 2px 12px rgba(27,67,50,0.06);
+}
+.weatherSelectGroup { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; min-width: 160px; }
+.weatherLabel { font-size: 0.8rem; font-weight: 700; color: #3A5441; }
+
+.selectBox {
+  background: #F7FBF8; border: 1.5px solid #C4DFC9;
+  border-radius: 10px; overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.selectBox:focus-within { border-color: #2D6A4F; box-shadow: 0 0 0 3px rgba(45,106,79,0.1); }
+.select {
+  width: 100%; padding: 0.75rem 1rem; font-size: 0.9rem; font-weight: 500;
+  color: #0F2417; background: transparent; border: none; outline: none;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5l4 4 4-4' stroke='%237A9A82' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem;
+}
+
+.cityInput {
+  padding: 0.75rem 1rem; font-size: 0.9rem;
+  border: 1.5px solid #C4DFC9; border-radius: 10px;
+  background: #F7FBF8; color: #0F2417;
+  font-family: 'DM Sans', sans-serif; outline: none; width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.cityInput::placeholder { color: #A8C4AE; }
+.cityInput:focus { border-color: #2D6A4F; background: #fff; box-shadow: 0 0 0 3px rgba(45,106,79,0.1); }
+
+.weatherBtn {
+  padding: 0.78rem 1.75rem; font-size: 0.92rem; font-weight: 700;
+  background: linear-gradient(135deg, #1B4332, #2D6A4F);
+  color: #fff; border: none; border-radius: 10px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(27,67,50,0.25); transition: all 0.2s;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.weatherBtn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(27,67,50,0.35); }
+.weatherBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.spinner {
+  display: inline-block; width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+  border-radius: 50%; animation: spin 0.65s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Weather result */
+.weatherResult { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.weatherCard {
+  background: linear-gradient(135deg, #1B4332, #2D6A4F);
+  border-radius: 18px; padding: 2rem; color: #fff;
+  box-shadow: 0 8px 32px rgba(27,67,50,0.25);
+}
+.weatherCityRow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem; }
+.weatherCity { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin: 0; }
+.weatherCondBadge {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+  padding: 0.35rem 0.9rem; border-radius: 100px; font-size: 0.82rem; font-weight: 600;
+}
+.weatherStats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.weatherStat { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; text-align: center; }
+.weatherStatIcon { font-size: 1.6rem; }
+.weatherStatValue { font-size: 1.15rem; font-weight: 700; }
+.weatherStatLabel { font-size: 0.72rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* Advisory */
+.advisory {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: 1.25rem 1.5rem; border-radius: 14px; border: 1.5px solid;
+}
+.advisoryInfo    { background: #EFF6FF; border-color: #BFDBFE; }
+.advisoryWarning { background: #FFFBEB; border-color: #FDE68A; }
+.advisorySuccess { background: #F0FAF2; border-color: #C4DFC9; }
+.advisoryIcon { font-size: 1.75rem; flex-shrink: 0; }
+.advisoryTitle { font-size: 0.8rem; font-weight: 700; color: #3A5441; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 0.3rem; }
+.advisoryText { font-size: 0.92rem; color: #0F2417; margin: 0; line-height: 1.6; }
+
+/* Forecast */
+.forecastWrap { background: #fff; border: 1px solid #E2EDE5; border-radius: 16px; padding: 1.5rem 1.75rem; box-shadow: 0 2px 12px rgba(27,67,50,0.06); }
+.forecastTitle { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #0F2417; margin: 0 0 1.25rem; }
+.forecastGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; }
+.forecastCard {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  background: #F7FBF8; border: 1px solid #E2EDE5; border-radius: 12px; padding: 1rem 0.5rem;
+  text-align: center; transition: all 0.2s;
+}
+.forecastCard:hover { background: #F0FAF2; border-color: #C4DFC9; }
+.forecastDay { font-size: 0.75rem; font-weight: 700; color: #3A5441; }
+.forecastIcon { font-size: 1.75rem; }
+.forecastTemp { font-size: 1.1rem; font-weight: 700; color: #0F2417; }
+.forecastDesc { font-size: 0.7rem; color: #7A9A82; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .newsGrid { grid-template-columns: repeat(2, 1fr); }
+  .weatherStats { grid-template-columns: repeat(2, 1fr); }
+  .forecastGrid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .newsGrid { grid-template-columns: 1fr; }
+  .weatherSelector { flex-direction: column; }
+  .forecastGrid { grid-template-columns: repeat(2, 1fr); }
+  .tabList { padding: 0 0.5rem; }
+}
