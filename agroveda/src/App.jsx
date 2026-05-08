@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import ForgotPassword from "./components/ForgotPassword";
 import CropCalendar from "./components/Cropcalendar";
+import News from "./components/News";
 
 import "./App.css";
 
@@ -15,7 +16,8 @@ function App() {
         <Route path="/login"           element={<Login />} />
         <Route path="/signup"          element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/crop-calendar" element={<CropCalendar />} />
+        <Route path="/crop-calendar"   element={<CropCalendar />} />
+        <Route path="/news"            element={<News/>}/>
   
       </Routes>
     </BrowserRouter>
