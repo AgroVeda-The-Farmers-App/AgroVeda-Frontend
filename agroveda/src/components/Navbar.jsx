@@ -60,6 +60,7 @@ export default function Navbar() {
           <li><button className={styles.navLink} onClick={() => scrollTo("how-it-works")}>How It Works</button></li>
           <li><button className={styles.navLink} onClick={() => scrollTo("about")}>About Us</button></li>
           <li><button className={styles.navLink} onClick={() => scrollTo("contact")}>Contact</button></li>
+            <li><Link to="/news" className={styles.navLink}>News</Link></li>
         </ul>
 
         {/* Desktop CTA — changes based on auth state */}
