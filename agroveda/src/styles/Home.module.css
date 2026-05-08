@@ -446,3 +446,29 @@
   .section { padding: 4rem 1.25rem; }
   .sectionFull { padding: 4rem 1.25rem; }
 }
+
+/* ── Clickable feature card ── */
+.featureCardLink {
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.featureCardLink:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(27,67,50,0.12);
+  border-color: var(--green-pale);
+}
+.featureCardLink:hover::before { transform: scaleX(1); }
+.featureArrow {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-mid);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: gap 0.2s;
+}
+.featureCardLink:hover .featureArrow { gap: 0.6rem; }
