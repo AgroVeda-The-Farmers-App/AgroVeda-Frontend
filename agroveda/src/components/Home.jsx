@@ -23,9 +23,9 @@ const FEATURES = [
   },
   {
     icon: "🧪",
-    title: "Soil Health Reports",
-    text: "Upload your soil test results and get a detailed analysis with fertilizer and crop rotation recommendations.",
-    link: null,
+    title: "Yield Predictor",
+    text: "Predict your expected crop yield and total production using our AI model trained on real Indian agricultural data.",
+    link: "/yield-predictor",
   },
   {
     icon: "💧",
