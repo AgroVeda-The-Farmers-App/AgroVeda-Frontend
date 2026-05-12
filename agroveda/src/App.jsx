@@ -5,6 +5,7 @@ import Signup from "./components/Signup";
 import ForgotPassword from "./components/ForgotPassword";
 import CropCalendar from "./components/Cropcalendar";
 import News from "./components/News";
+import YieldPredictor from "./components/YieldPredictor";
 
 import "./App.css";
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/crop-calendar"   element={<CropCalendar />} />
         <Route path="/news"            element={<News/>}/>
+        <Route path="/yield-predictor"            element={<YieldPredictor/>}/>
   
       </Routes>
     </BrowserRouter>
