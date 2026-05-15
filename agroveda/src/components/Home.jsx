@@ -13,7 +13,7 @@ const FEATURES = [
     icon: "🌦️",
     title: "Hyperlocal Weather Alerts",
     text: "Get real-time weather forecasts and extreme weather warnings directly for your farm's pincode, not a generic region.",
-    link: null,
+    link: "/weather",
   },
   {
     icon: "📊",
