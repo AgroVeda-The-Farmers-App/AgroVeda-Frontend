@@ -81,6 +81,9 @@ export default function AdminDashboard({ admin, onLogout }) {
   const [activeTab,   setActiveTab]   = useState("overview");
   const [deleteId,    setDeleteId]    = useState(null);
   const [dark,        setDark]        = useState(true);
+  const [supportTickets, setSupportTickets] = useState([]);
+  const [supportFilter,  setSupportFilter]  = useState("all"); // "all" | "open" | "resolved"
+  const [activeTicket,   setActiveTicket]   = useState(null);
 
   const GREEN_RAMP    = dark ? GREEN_RAMP_DARK  : GREEN_RAMP_LIGHT;
   const GENDER_COLORS = dark ? GENDER_COLORS_DARK : GENDER_COLORS_LIGHT;
@@ -127,6 +130,27 @@ export default function AdminDashboard({ admin, onLogout }) {
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
   }, [dark]);
 
+  const fetchSupportTickets = useCallback(async () => {
+    try {
+      const res = await ax("/admin/support-tickets");
+      setSupportTickets(res.data);
+    } catch {}
+  }, []);
+
+  useEffect(() => { fetchSupportTickets(); }, [fetchSupportTickets]);
+
+  const resolveTicket = async (id) => {
+    try {
+      await axios.patch(`${API}/admin/support-tickets/${id}`, { status: "resolved" }, {
+        headers: { Authorization: `Bearer ${TOKEN()}` },
+      });
+      setSupportTickets(prev =>
+        prev.map(t => t.id === id ? { ...t, status: "resolved" } : t)
+      );
+      if (activeTicket?.id === id) setActiveTicket(prev => ({ ...prev, status: "resolved" }));
+    } catch {}
+  };
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API}/admin/users/${id}`, {
@@ -147,9 +171,10 @@ export default function AdminDashboard({ admin, onLogout }) {
     { key: "overview", icon: "📊", label: "Overview" },
     { key: "charts",   icon: "📈", label: "Analytics" },
     { key: "users",    icon: "👥", label: "Users" },
+    { key: "support",  icon: "🎧", label: "Support" },
   ];
 
-  const pageTitles = { overview: "Dashboard overview", charts: "Analytics", users: "User management" };
+  const pageTitles = { overview: "Dashboard overview", charts: "Analytics", users: "User management", support: "Support inbox" };
 
   return (
     <div className={styles.page}>
@@ -180,7 +205,18 @@ export default function AdminDashboard({ admin, onLogout }) {
           ))}
           <div className={styles.navSection}>System</div>
           <button className={styles.navItem}><span>⚙️</span><span>Settings</span></button>
-          <button className={styles.navItem}><span>🔔</span><span>Alerts</span></button>
+          <button
+            className={`${styles.navItem} ${activeTab === "support" ? styles.navActive : ""}`}
+            onClick={() => setActiveTab("support")}
+          >
+            <span>🎧</span>
+            <span style={{ flex: 1 }}>Support</span>
+            {supportTickets.filter(t => t.status === "open").length > 0 && (
+              <span className={styles.navBadge}>
+                {supportTickets.filter(t => t.status === "open").length}
+              </span>
+            )}
+          </button>
         </nav>
 
         <div className={styles.sidebarBottom}>
@@ -490,6 +526,124 @@ export default function AdminDashboard({ admin, onLogout }) {
               </div>
             )}
           </>
+        )}
+
+        {/* ── SUPPORT INBOX ── */}
+        {activeTab === "support" && (
+          <div className={styles.supportWrap}>
+            <div className={styles.supportTopBar}>
+              <div className={styles.supportFilters}>
+                {["all","open","resolved"].map(f => (
+                  <button
+                    key={f}
+                    className={`${styles.filterBtn} ${supportFilter === f ? styles.filterActive : ""}`}
+                    onClick={() => setSupportFilter(f)}
+                  >
+                    {f === "all" ? "All tickets" : f.charAt(0).toUpperCase() + f.slice(1)}
+                    <span className={styles.filterCount}>
+                      {f === "all"
+                        ? supportTickets.length
+                        : supportTickets.filter(t => t.status === f).length}
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <button className={styles.btnGreen} onClick={fetchSupportTickets}>↻ Refresh</button>
+            </div>
+
+            <div className={styles.supportLayout}>
+              <div className={styles.ticketList}>
+                {supportTickets.filter(t => supportFilter === "all" || t.status === supportFilter).length === 0 ? (
+                  <div className={styles.ticketEmpty}>
+                    <div style={{ fontSize: "2rem", marginBottom: "8px" }}>🎉</div>
+                    No {supportFilter !== "all" ? supportFilter : ""} tickets
+                  </div>
+                ) : supportTickets
+                    .filter(t => supportFilter === "all" || t.status === supportFilter)
+                    .map(ticket => (
+                  <div
+                    key={ticket.id}
+                    className={`${styles.ticketItem} ${activeTicket?.id === ticket.id ? styles.ticketItemActive : ""}`}
+                    onClick={() => setActiveTicket(ticket)}
+                  >
+                    <div className={styles.ticketItemTop}>
+                      <div className={styles.ticketItemName}>{ticket.user_name || "Unknown user"}</div>
+                      <div className={`${styles.ticketStatusPill} ${ticket.status === "resolved" ? styles.statusResolved : styles.statusOpen}`}>
+                        {ticket.status === "resolved" ? "Resolved" : "Open"}
+                      </div>
+                    </div>
+                    <div className={styles.ticketItemIssue}>{ticket.issue_label}</div>
+                    <div className={styles.ticketItemTime}>{ticket.created_at}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className={styles.ticketDetail}>
+                {!activeTicket ? (
+                  <div className={styles.ticketEmpty}>
+                    <div style={{ fontSize: "2rem", marginBottom: "8px" }}>🎧</div>
+                    Select a ticket to view details
+                  </div>
+                ) : (
+                  <>
+                    <div className={styles.detailHeader}>
+                      <div>
+                        <div className={styles.detailTitle}>{activeTicket.issue_label}</div>
+                        <div className={styles.detailMeta}>
+                          Raised by <strong>{activeTicket.user_name || "Unknown"}</strong> · {activeTicket.created_at}
+                        </div>
+                      </div>
+                      {activeTicket.status === "open" ? (
+                        <button className={styles.resolveBtn} onClick={() => resolveTicket(activeTicket.id)}>
+                          ✓ Mark resolved
+                        </button>
+                      ) : (
+                        <div className={styles.resolvedChip}>✅ Resolved</div>
+                      )}
+                    </div>
+
+                    <div className={styles.detailBody}>
+                      <div className={styles.detailCards}>
+                        {[
+                          { label: "Farmer name", value: activeTicket.user_name || "—" },
+                          { label: "Phone",       value: activeTicket.phone || "—" },
+                          { label: "Issue type",  value: activeTicket.issue_key || "—" },
+                          { label: "Status",      value: activeTicket.status },
+                        ].map(c => (
+                          <div key={c.label} className={styles.detailCard}>
+                            <div className={styles.detailCardLabel}>{c.label}</div>
+                            <div className={styles.detailCardValue} style={{ textTransform: "capitalize" }}>{c.value}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className={styles.transcript}>
+                        <div className={styles.transcriptLabel}>Chat transcript</div>
+                        <div className={styles.transcriptMsg}>
+                          <div className={styles.transcriptAvatar} style={{ background: "#16a34a" }}>
+                            {activeTicket.user_name?.charAt(0) || "U"}
+                          </div>
+                          <div>
+                            <div className={styles.transcriptName}>{activeTicket.user_name}</div>
+                            <div className={`${styles.transcriptBubble} ${styles.bubbleUser}`}>{activeTicket.issue_label}</div>
+                          </div>
+                        </div>
+                        <div className={styles.transcriptMsg}>
+                          <div className={styles.transcriptAvatar} style={{ background: "#1e293b" }}>🎧</div>
+                          <div>
+                            <div className={styles.transcriptName}>Agroveda Bot</div>
+                            <div className={`${styles.transcriptBubble} ${styles.bubbleBot}`} style={{ whiteSpace: "pre-line" }}>
+                              {activeTicket.bot_reply || "Automated reply was sent to the farmer."}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
         )}
       </main>
 
