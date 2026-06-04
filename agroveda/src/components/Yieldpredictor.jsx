@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
-import styles from "../../styles/YieldPredictor.module.css";
+import styles from "../styles/Yieldpredictor.module.css";
 
 const API = "http://localhost:5000";
 
