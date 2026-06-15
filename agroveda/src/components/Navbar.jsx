@@ -68,7 +68,7 @@ export default function Navbar() {
           {user ? (
             // ── LOGGED IN ──
             <div className={styles.userMenu}>
-              <div className={styles.userAvatar}>
+              <div className={styles.userAvatar} onClick={()=> navigate("/profile")}>
                 {firstName.charAt(0).toUpperCase()}
               </div>
               <span className={styles.userName}>Hi, {firstName}!</span>

@@ -82,7 +82,7 @@ export default function YieldPredictor() {
                     onChange={e => set("state", e.target.value)}
                     disabled={optLoading}>
                     <option value="">{optLoading ? "Loading..." : "-- Select state --"}</option>
-                    {options.states.map(s => <option key={s} value={s}>{s}</option>)}
+                    {options.states.map(s => <option key={s} value={s} translate="no">{s}</option>)}
                   </select>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export default function YieldPredictor() {
                     onChange={e => set("district", e.target.value)}
                     disabled={optLoading}>
                     <option value="">-- Select district --</option>
-                    {options.districts.map(d => <option key={d} value={d}>{d}</option>)}
+                    {options.districts.map(d => <option key={d} value={d} translate="no">{d}</option>)}
                   </select>
                 </div>
               </div>
@@ -108,7 +108,7 @@ export default function YieldPredictor() {
                     onChange={e => set("season", e.target.value)}
                     disabled={optLoading}>
                     <option value="">-- Select season --</option>
-                    {options.seasons.map(s => <option key={s} value={s}>{s}</option>)}
+                    {options.seasons.map(s => <option key={s} value={s} translate="no">{s}</option>)}
                   </select>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export default function YieldPredictor() {
                     onChange={e => set("crop", e.target.value)}
                     disabled={optLoading}>
                     <option value="">-- Select crop --</option>
-                    {options.crops.map(c => <option key={c} value={c}>{c}</option>)}
+                    {options.crops.map(c => <option key={c} value={c} translate="no">{c}</option>)}
                   </select>
                 </div>
               </div>

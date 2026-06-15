@@ -131,6 +131,7 @@ export default function Login() {
                   id="phone_no"
                   name="phone_no"
                   type="tel"
+                  translate="no"
                   className={styles.input}
                   style={{ paddingLeft: "4.5rem" }}
                   placeholder="10-digit mobile number"
@@ -139,6 +140,7 @@ export default function Login() {
                     const val = e.target.value.replace(/\D/g, "").slice(0, 10);
                     setForm(p => ({ ...p, phone_no: val }));
                     setError("");
+                    
                   }}
                   autoComplete="tel"
                 />
@@ -159,6 +161,7 @@ export default function Login() {
                 <input
                   id="password"
                   name="password"
+                  translate="no"
                   type={showPass ? "text" : "password"}
                   className={styles.input}
                   placeholder="Enter your password"

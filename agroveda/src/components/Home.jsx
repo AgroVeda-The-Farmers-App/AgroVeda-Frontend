@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import styles from "../styles/Home.module.css";
 
 const FEATURES = [
+
   {
     icon: "🌾",
     title: "Smart Crop Advisory",
@@ -17,10 +18,11 @@ const FEATURES = [
   },
   {
     icon: "📊",
-    title: "Live Market Prices",
+    title: "Crop recommendation",
     text: "Track mandi prices across 500+ markets in real time. Know when to sell and where to sell for maximum profit.",
-    link: null,
+    link: "/crop-recommendation",
   },
+
   {
     icon: "🧪",
     title: "Yield Predictor",
@@ -35,9 +37,10 @@ const FEATURES = [
   },
   {
     icon: "🤖",
-    title: "AI Farm Assistant",
+    title: "Market price Prediction",
     text: "Chat with our multilingual AI assistant 24/7 — ask in Hindi, Bengali, Tamil or English and get expert answers instantly.",
-    link: null,
+    link: "/market-prices",
+
   },
 ];
 
