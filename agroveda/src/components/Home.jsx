@@ -31,14 +31,28 @@ const FEATURES = [
   },
   {
     icon: "💧",
-    title: "Irrigation Planner",
-    text: "Optimise water usage with our smart irrigation schedules that adapt to rainfall forecasts and crop growth stages.",
-    link: null,
+    title: "Check Moisture Level",
+    text: "Check Soil moisture level using soil moisture sensor ",
+    link: "soil-moisture",
+  },
+  {
+    icon: "🌾",
+    title: "Plant Disease Predictor",
+    text: "Predict any kind of plant disease using Agroveda",
+    link: "/plant-disease",
+
+  },
+  {
+    icon: "🌾",
+    title: "Ferilizer Predictor",
+    text: "Predict fertilizer for crops",
+    link: "/fertilizer-predictor",
+
   },
   {
     icon: "🤖",
     title: "Market price Prediction",
-    text: "Chat with our multilingual AI assistant 24/7 — ask in Hindi, Bengali, Tamil or English and get expert answers instantly.",
+    text: "Predict market price of any commodity all over india",
     link: "/market-prices",
 
   },
