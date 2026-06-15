@@ -8,6 +8,9 @@ import News from "./components/News";
 import YieldPredictor from "./components/YieldPredictor";
 import Weather from "./components/Weather";
 import SupportBot from "./components/SupportBot";
+import UserProfile from "./components/Userprofile";
+import CropRecommendation from "./components/Croprecommendation";
+import MarketPricePrediction from "./components/MarketPricePrediction";
 import "./App.css";
 
 function App() {
@@ -22,6 +25,9 @@ function App() {
         <Route path="/news" element={<News />} />
         <Route path="/yield-predictor" element={<YieldPredictor />} />
         <Route path="/weather" element={<Weather />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/crop-recommendation" element={<CropRecommendation />} />
+        <Route path="/market-prices" element={<MarketPricePrediction/>} />
       </Routes>
 
       <SupportBot userName="" />
