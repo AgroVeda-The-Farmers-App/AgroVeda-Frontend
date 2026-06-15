@@ -29,17 +29,115 @@ export default function Signup() {
   const patch = (field, val) => { setForm(p => ({ ...p, [field]: val })); setError(""); };
 
   const validate = () => {
-    if (step === 1 && !form.full_name.trim()) return "Please enter your full name.";
-    if (step === 2 && !/^\d{10}$/.test(form.phone_no)) return "Enter a valid 10-digit phone number.";
-    if (step === 3 && !form.dob) return "Please select your date of birth.";
-    if (step === 4 && !form.gender) return "Please select your gender.";
-    if (step === 5 && !form.address.trim()) return "Please enter your address.";
-    if (step === 6) {
-      if (form.password.length < 6) return "Password must be at least 6 characters.";
-      if (form.password !== form.confirm_password) return "Passwords do not match.";
+
+  // STEP 1 - Full Name
+  if (step === 1) {
+
+    if (!form.full_name.trim())
+      return "Please enter your full name.";
+
+    if (form.full_name.trim().length < 3)
+      return "Name must be at least 3 characters.";
+
+    if (!/^[A-Za-z ]+$/.test(form.full_name))
+      return "Name can contain only letters and spaces.";
+  }
+
+  // STEP 2 - Phone
+  if (step === 2) {
+
+    if (!form.phone_no)
+      return "Phone number is required.";
+
+    if (!/^[6-9]\d{9}$/.test(form.phone_no))
+      return "Enter a valid 10-digit Indian mobile number.";
+  }
+
+  // STEP 3 - DOB
+  if (step === 3) {
+
+    if (!form.dob)
+      return "Please select your date of birth.";
+
+    const dob = new Date(form.dob);
+    const today = new Date();
+
+    const minDate = new Date("1900-01-01");
+
+    if (dob < minDate)
+      return "Year must be 1900 or later.";
+
+    if (dob > today)
+      return "Date of birth cannot be in the future.";
+
+    let age = today.getFullYear() - dob.getFullYear();
+
+    const monthDiff = today.getMonth() - dob.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 &&
+        today.getDate() < dob.getDate())
+    ) {
+      age--;
     }
-    return null;
-  };
+
+    if (age < 18)
+      return "You must be at least 18 years old.";
+  }
+
+  // STEP 4 - Gender
+  if (step === 4) {
+
+    if (!form.gender)
+      return "Please select your gender.";
+  }
+
+  // STEP 5 - Address
+  if (step === 5) {
+
+    if (!form.address.trim())
+      return "Please enter your address.";
+
+    if (form.address.trim().length < 10)
+      return "Address must be at least 10 characters.";
+  }
+
+  // STEP 6 - Password
+  if (step === 6) {
+
+    if (!form.password)
+      return "Password is required.";
+
+    if (form.password.length < 8)
+      return "Password must be at least 8 characters.";
+
+    if (
+      !/(?=.*[a-z])/.test(form.password)
+    )
+      return "Password must contain a lowercase letter.";
+
+    if (
+      !/(?=.*[A-Z])/.test(form.password)
+    )
+      return "Password must contain an uppercase letter.";
+
+    if (
+      !/(?=.*\d)/.test(form.password)
+    )
+      return "Password must contain a number.";
+
+    if (
+      !/(?=.*[@$!%*?&])/.test(form.password)
+    )
+      return "Password must contain a special character.";
+
+    if (form.password !== form.confirm_password)
+      return "Passwords do not match.";
+  }
+
+  return null;
+};
 
   const next = () => { const e = validate(); if (e) { setError(e); return; } setStep(s => s + 1); setError(""); };
   const back = () => { setStep(s => s - 1); setError(""); };
@@ -150,17 +248,24 @@ export default function Signup() {
           {step === 1 && (
             <div className={styles.body}>
               <input
-                className={`${styles.input} ${styles.inputLg}`}
-                type="text"
-                placeholder="e.g. Rajan Kumar"
-                value={form.full_name}
-                onChange={e => patch("full_name", e.target.value)}
-                onKeyDown={e => e.key === "Enter" && next()}
-                autoFocus
-              />
+            className={`${styles.input} ${styles.inputLg}`}
+            type="text"
+            placeholder="e.g. Rajan Kumar"
+            value={form.full_name}
+            onChange={(e) =>
+              patch(
+                "full_name",
+                e.target.value.replace(/[^A-Za-z ]/g, "")
+              )
+            }
+            onKeyDown={e => e.key === "Enter" && next()}
+            autoFocus
+          />
               <p className={styles.hint}>As per your official records</p>
             </div>
           )}
+
+          
 
           {/* ── STEP 2: Phone ── */}
           {step === 2 && (
@@ -185,15 +290,21 @@ export default function Signup() {
           {step === 3 && (
             <div className={styles.body}>
               <input
-                className={`${styles.input} ${styles.inputLg}`}
-                type="date"
-                value={form.dob}
-                onChange={e => patch("dob", e.target.value)}
-                autoFocus
-              />
+              className={`${styles.input} ${styles.inputLg}`}
+              type="date"
+              value={form.dob}
+              min="1950-01-01"
+              max={new Date().toISOString().split("T")[0]}
+              onChange={e => patch("dob", e.target.value)}
+              autoFocus
+            />
               <p className={styles.hint}>Helps us give age-appropriate advice</p>
             </div>
+
+            
           )}
+
+          
 
           {/* ── STEP 4: Gender ── */}
           {step === 4 && (
