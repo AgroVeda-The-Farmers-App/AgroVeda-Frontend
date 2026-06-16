@@ -11,6 +11,10 @@ import SupportBot from "./components/SupportBot";
 import UserProfile from "./components/Userprofile";
 import CropRecommendation from "./components/Croprecommendation";
 import MarketPricePrediction from "./components/MarketPricePrediction";
+import PlantDisease from "./components/PlantDisease";
+import FertilizerPrediction from "./components/FertilizerPrediction";
+import CheckMoisture from "./components/CheckMoisture";
+
 import "./App.css";
 
 function App() {
@@ -28,6 +32,9 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/crop-recommendation" element={<CropRecommendation />} />
         <Route path="/market-prices" element={<MarketPricePrediction/>} />
+        <Route path="/plant-disease" element={<PlantDisease/>} />
+        <Route path="/fertilizer-predictor" element={<FertilizerPrediction/>} />
+        <Route path="/soil-moisture" element={<CheckMoisture/>} />
       </Routes>
 
       <SupportBot userName="" />

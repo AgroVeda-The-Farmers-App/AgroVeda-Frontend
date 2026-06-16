@@ -1,0 +1,209 @@
+/* ===========================
+   Fertilizer Recommendation
+   Agroveda Theme Styling
+   (CSS Module - camelCase classes)
+   =========================== */
+
+/* ----- Hero Section ----- */
+
+.hero {
+  background: linear-gradient(135deg, #2e3d2f 0%, #3f5440 100%);
+  padding: 70px 24px 90px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.heroContent {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 6px 18px;
+  background-color: rgba(245, 196, 67, 0.15);
+  color: #f5c443;
+  border: 1px solid rgba(245, 196, 67, 0.35);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: 18px;
+}
+
+.heroTitle {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 12px 0 16px;
+  line-height: 1.2;
+}
+
+.heroSub {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #d6ddd2;
+  margin: 0 auto;
+  max-width: 560px;
+}
+
+/* ----- Form Container ----- */
+
+.container {
+  max-width: 600px;
+  margin: -50px auto 60px;
+  padding: 40px;
+  background-color: #f6f3ea; /* cream background */
+  border: 1px dashed #c9c2ab;
+  border-radius: 16px;
+  font-family: "Segoe UI", "Poppins", sans-serif;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 2;
+}
+
+.container h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #2e3d2f; /* dark green, matches navbar */
+  margin-bottom: 6px;
+}
+
+.container h2 {
+  font-size: 15px;
+  font-weight: 500;
+  color: #6b7c6d;
+  margin-bottom: 28px;
+}
+
+/* ----- Form ----- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form input,
+.form select {
+  width: 100%;
+  padding: 14px 18px;
+  background-color: #eef2e6; /* light sage */
+  border: 1px solid #d7ddc9;
+  border-radius: 10px;
+  color: #2e3d2f;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form input::placeholder {
+  color: #8fa092;
+}
+
+.form input:hover,
+.form select:hover {
+  background-color: #e4ead9;
+  border-color: #b9c7ac;
+}
+
+.form input:focus,
+.form select:focus {
+  border-color: #52b788;
+  background-color: #ffffff;
+}
+
+.form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%234B5D4C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  padding-right: 40px;
+}
+
+/* ----- Submit Button (Get Started style) ----- */
+
+.form button[type="submit"] {
+  margin-top: 8px;
+  padding: 14px 36px;
+  background-color: #f5c443; /* yellow accent */
+  color: #2e3d2f;
+  border: none;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.form button[type="submit"]:hover {
+  background-color: #f0b71f;
+}
+
+.form button[type="submit"]:active {
+  transform: scale(0.98);
+}
+
+.form button[type="submit"]:disabled {
+  background-color: #e3d6a3;
+  color: #8a8a72;
+  cursor: not-allowed;
+}
+
+/* ----- Result Card ----- */
+
+.result {
+  margin-top: 32px;
+  padding: 24px;
+  background-color: #eef2e6;
+  border: 1px solid #d7ddc9;
+  border-radius: 12px;
+  text-align: left;
+  animation: fadeIn 0.4s ease;
+}
+
+.result h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  color: #2e3d2f;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #d7ddc9;
+  padding-bottom: 10px;
+}
+
+.result p {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2e3d2f;
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ----- Responsive ----- */
+
+@media (max-width: 640px) {
+  .heroTitle {
+    font-size: 30px;
+  }
+
+  .container {
+    margin: -40px 16px 50px;
+    padding: 28px 20px;
+  }
+}

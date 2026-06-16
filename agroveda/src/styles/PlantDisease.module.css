@@ -1,0 +1,137 @@
+/* ===========================
+   Plant Disease Detection
+   Agroveda Theme Styling
+   (CSS Module - camelCase classes)
+   =========================== */
+
+.diseaseContainer {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 40px;
+  background-color: #f6f3ea; /* cream background */
+  border: 1px dashed #c9c2ab;
+  border-radius: 16px;
+  font-family: "Segoe UI", "Poppins", sans-serif;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.diseaseContainer h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #2e3d2f; /* dark green, matches navbar */
+  margin-bottom: 28px;
+}
+
+/* ----- Form ----- */
+
+.diseaseContainer form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.diseaseContainer input[type="file"] {
+  width: 100%;
+  padding: 14px 18px;
+  background-color: #eef2e6; /* light sage */
+  border: 1px solid #d7ddc9;
+  border-radius: 10px;
+  color: #4b5d4c;
+  font-size: 15px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.diseaseContainer input[type="file"]:hover {
+  background-color: #e4ead9;
+  border-color: #b9c7ac;
+}
+
+.diseaseContainer input[type="file"]::file-selector-button {
+  padding: 8px 16px;
+  margin-right: 12px;
+  background-color: #2e3d2f;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.diseaseContainer input[type="file"]::file-selector-button:hover {
+  background-color: #44593f;
+}
+
+/* ----- Image Preview ----- */
+
+.previewImage {
+  width: 100%;
+  max-width: 320px;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #d7ddc9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ----- Submit Button (Get Started style) ----- */
+
+.diseaseContainer button[type="submit"] {
+  padding: 14px 36px;
+  background-color: #f5c443; /* yellow accent */
+  color: #2e3d2f;
+  border: none;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.diseaseContainer button[type="submit"]:hover {
+  background-color: #f0b71f;
+}
+
+.diseaseContainer button[type="submit"]:active {
+  transform: scale(0.98);
+}
+
+.diseaseContainer button[type="submit"]:disabled {
+  background-color: #e3d6a3;
+  color: #8a8a72;
+  cursor: not-allowed;
+}
+
+/* ----- Result Card ----- */
+
+.result {
+  margin-top: 32px;
+  padding: 24px;
+  background-color: #eef2e6;
+  border: 1px solid #d7ddc9;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.result h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  color: #2e3d2f;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #d7ddc9;
+  padding-bottom: 10px;
+}
+
+.result p {
+  font-size: 15px;
+  color: #4b5d4c;
+  margin: 8px 0;
+}
+
+.result p strong {
+  color: #2e3d2f;
+}
