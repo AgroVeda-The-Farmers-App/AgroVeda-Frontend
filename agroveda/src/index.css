@@ -33,3 +33,27 @@ html, body, #root {
 button { font-family: 'DM Sans', sans-serif; cursor: pointer; border: none; outline: none; }
 input, select { font-family: 'DM Sans', sans-serif; outline: none; }
 a { text-decoration: none; color: inherit; }
+
+/* Hide Google Translate original-text tooltips */
+font[_mstmutation="1"],
+*[_mstmutation="1"] {
+  pointer-events: none;
+}
+
+.goog-te-tooltip {
+  display: none !important;
+}
+
+.goog-tooltip {
+  display: none !important;
+}
+
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+/* Prevent title attribute tooltip on translated elements */
+[title]:not(iframe):not(input):not(button) {
+  pointer-events: auto;
+}
+

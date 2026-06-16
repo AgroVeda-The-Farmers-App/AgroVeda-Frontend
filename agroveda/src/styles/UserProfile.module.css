@@ -99,3 +99,46 @@
     justify-self: start;
   }
 }
+
+.sub {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 2px 0 0;
+}
+
+.memberBadge {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: #E1F5EE;
+  color: #0F6E56;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.infoCard {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+
+.infoLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0 0 4px;
+}
+
+.infoVal {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+  word-break: break-word;
+}
